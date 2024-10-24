@@ -36,7 +36,7 @@ const StudentDetails = () => {
      {/* Result Displaying From filteredStudents - check 15th line */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
         {filteredStudents.map((student) => (
-          <div className={`rounded-lg shadow-lg overflow-hidden bg-gradient-to-br from-indigo-400 to-cyan-500 transition-transform duration-200 ease-in-out hover:scale-105`}>
+          <div className={`rounded-lg shadow-lg overflow-hidden bg-gradient-to-br from-indigo-400 to-cyan-500 transition-transform duration-200 ease-in-out hover:scale-105`} key={student.rollno}>
             <div className="p-6">
               <h2 className="text-2xl font-bold text-white mb-4 capitalize">{student.name}</h2>
               <div className="space-y-2">

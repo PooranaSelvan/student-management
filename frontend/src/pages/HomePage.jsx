@@ -14,7 +14,7 @@ const HomePage = () => {
     <div className="min-h-screen bg-gradient-to-br from-teal-400 via-cyan-500 to-blue-500 p-8">
       <div className="max-w-6xl mx-auto">
         <div className="text-center mb-16">
-          <h1 className="text-6xl font-extrabold text-white mb-4 drop-shadow-lg">
+          <h1 className="text-3xl md:text-6xl font-extrabold text-white mb-4 drop-shadow-lg">
             <GraduationCap className="inline-block mr-4 h-16 w-16 animate-pulse" />
             Student Management
           </h1>
@@ -26,7 +26,7 @@ const HomePage = () => {
           <div className="flex-1 min-w-[300px]">
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
               {buttons.map(({ to, text, color, icon: Icon }) => (
-                <Link to={to} className="block">
+                <Link to={to} className="block" key={to}>
                   <button className={`w-full ${color} text-white py-4 px-6 rounded-lg font-bold text-lg shadow-md transform transition-all duration-300 ease-in-out hover:scale-105 hover:brightness-110 active:scale-95 flex items-center justify-center space-x-3`}>
                     <Icon className="h-6 w-6" />
                     <span>{text}</span>
@@ -39,7 +39,7 @@ const HomePage = () => {
           {/* Text in the image using positioning */}
           <div className="flex-1 min-w-[300px]">
             <div className="relative overflow-hidden rounded-2xl shadow-2xl transform hover:scale-105 transition-transform duration-300">
-              <img  src="/public/images/student.webp"  className="w-full h-auto object-cover"  alt="Students collaborating" />
+              <img  src="/images/student.webp"  className="w-full h-auto object-cover"  alt="Students collaborating" />
               <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent flex items-end">
                 <p className="text-white text-xl font-semibold p-6">
                   Nurturing tomorrow's leaders today
