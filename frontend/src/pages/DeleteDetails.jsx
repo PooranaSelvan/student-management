@@ -4,20 +4,26 @@ import { Link } from 'react-router-dom';
 import Swal from 'sweetalert2';
 
 const DeleteDetails = () => {
+
+  // main state for storing arr of obj of students
   const [students, setStudents] = useState([]);
   const [searchTerm, setSearchTerm] = useState('');
 
+  // initial aa run aagum - localStorage data va get panni students la update pannum
   useEffect(() => {
     const storedStudents = JSON.parse(localStorage.getItem('students')) || [];
     setStudents(storedStudents);
   }, []);
 
+  // 
   const filteredStudents = students.filter((student) => {
     return student.name.toLowerCase().includes(searchTerm.toLowerCase()) || 
            student.rollno.toString().includes(searchTerm);
   });
 
+
   const handleDelete = (rollno) => {
+
     Swal.fire({
       title: 'Are you sure?',
       text: "You won't be able to revert this!",
@@ -28,9 +34,16 @@ const DeleteDetails = () => {
       confirmButtonText: 'Yes, delete it!'
     }).then((result) => {
       if (result.isConfirmed) {
+        // get panna rollno != rollno match aagatha thaa matum filter panni eduthu arr va return panuthu
         const updatedStudents = students.filter((student) => student.rollno !== rollno);
+
+        // updating in main useState
         setStudents(updatedStudents);
+
+        // updating in localStorage
         localStorage.setItem('students', JSON.stringify(updatedStudents));
+
+        // result
         Swal.fire(
           'Deleted!',
           'The student has been deleted.',
@@ -41,6 +54,8 @@ const DeleteDetails = () => {
   }
 
   const handleClearAll = () => {
+
+    // cancel all the objs in the arr
     Swal.fire({
       title: 'Delete all students?',
       text: "This action cannot be undone!",
@@ -51,8 +66,14 @@ const DeleteDetails = () => {
       confirmButtonText: 'Yes, delete all!'
     }).then((result) => {
       if (result.isConfirmed) {
+
+        // clearing useState
         setStudents([]);
+
+        // removing the whole arry from localStorage
         localStorage.removeItem('students');
+
+        // result
         Swal.fire(
           'Deleted!',
           'All students have been deleted.',
@@ -69,12 +90,14 @@ const DeleteDetails = () => {
           <h1 className="text-3xl sm:text-4xl font-bold text-center">Delete Student Details</h1>
         </header>
 
-        <main className="p-6">
+        <div className="p-6">
           <div className="max-w-md mx-auto mb-8">
+            {/* Search Bar */}
             <div className="relative flex items-center">
               <input type="text" placeholder="Search by name or roll number" className="w-full px-4 py-2 text-gray-900 border border-gray-300 rounded-full focus:outline-none focus:ring-2 focus:ring-blue-500" value={searchTerm} onChange={(e) => setSearchTerm(e.target.value)}/>
               <Search className="absolute right-3 top-2.5 h-5 w-5 text-gray-400" />
             </div>
+            {/* Clear Button */}
             {students.length >= 1 && (
               <button className="mt-4 w-full bg-red-500 text-white px-4 py-2 rounded-full hover:bg-red-600 transition duration-300 flex items-center justify-center"onClick={handleClearAll}>
                 <CircleMinus className="mr-2" /> Clear All Students
@@ -83,6 +106,7 @@ const DeleteDetails = () => {
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            {/* Mapping Filtered Students Data */}
             {filteredStudents.map((student) => (
               <div className="bg-white rounded-lg shadow-md overflow-hidden border border-gray-200" key={student.rollno}>
                 <div className="p-6">
@@ -112,6 +136,7 @@ const DeleteDetails = () => {
                     </div>
                   </div>
                 </div>
+                {/* Delete Button For Single Student */}
                 <div className="bg-gray-100 px-6 py-4">
                   <button  className="w-full bg-red-500 text-white px-4 py-2 rounded-full hover:bg-red-600 transition duration-300 flex items-center justify-center" onClick={() => handleDelete(student.rollno)}>
                     <Trash2 className="mr-2" /> Delete Student
@@ -121,10 +146,12 @@ const DeleteDetails = () => {
             ))}
           </div>
 
+            {/* filtered arr ooda len 0 va iruntha */}
           {filteredStudents.length === 0 && (
             <p className="text-center text-gray-600 mt-8">No students found. Try a different search or add new students.</p>
           )}
-        </main>
+        </div>
+
 
         <footer className="bg-gray-100 p-6">
           <div className="flex flex-wrap items-center justify-center gap-4">

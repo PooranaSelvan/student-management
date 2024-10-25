@@ -3,14 +3,17 @@ import { GraduationCap, MapPin, Hash, Calendar, Search, CalendarDays, Home, User
 import { Link } from 'react-router-dom';
 
 const StudentDetails = () => {
+  // main state to store data
   const [students, setStudents] = useState([]);
   const [searchTerm, setSearchTerm] = useState('');
 
+  // initial aa run aagum - localStorage data va get panni students la update pannum
   useEffect(() => {
     const storedStudents = JSON.parse(localStorage.getItem('students')) || [];
     setStudents(storedStudents);
   }, []);
 
+  // filtering as every component - check any other component for docs :) :/
   const filteredStudents = students.filter((student) => {
     return student.name.toLowerCase().includes(searchTerm.toLowerCase()) || 
            student.rollno.toString().includes(searchTerm);
@@ -24,17 +27,12 @@ const StudentDetails = () => {
         <div className="bg-white rounded-xl shadow-2xl overflow-hidden mb-8">
           <div className="p-6">
             <div className="relative max-w-md mx-auto">
-              <input 
-                type="text" 
-                placeholder="Search by name or roll number" 
-                className="w-full px-4 py-2 pl-10 pr-4 text-gray-700 bg-gray-100 rounded-full focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all duration-300" 
-                value={searchTerm} 
-                onChange={(e) => setSearchTerm(e.target.value)}
-              />
+              <input type="text" placeholder="Search by name or roll number" className="w-full px-4 py-2 pl-10 pr-4 text-gray-700 bg-gray-100 rounded-full focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all duration-300" value={searchTerm} onChange={(e) => setSearchTerm(e.target.value)}/>
               <Search className="absolute left-3 top-2.5 h-5 w-5 text-gray-400" />
             </div>
           </div>
 
+          {/* Filtered Students List */}
           {filteredStudents.length > 0 ? (
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 p-6">
               {filteredStudents.map((student) => (
@@ -74,6 +72,7 @@ const StudentDetails = () => {
           )}
         </div>
         
+        {/* Buttons */}
         <div className="flex flex-wrap items-center justify-center gap-4">
           <Link to='/'>
             <button className='bg-gray-800 text-white px-6 py-3 rounded-full font-semibold transition-all duration-300 hover:bg-gray-700 flex items-center'>

@@ -4,6 +4,8 @@ import { Link } from 'react-router-dom';
 import Swal from 'sweetalert2'; 
 
 const AddDetails = () => {
+
+  // main state to store data
   const [students, setStudents] = useState([]);
   const [formData, setFormData] = useState({
     name: '',
@@ -14,20 +16,26 @@ const AddDetails = () => {
     address: ''
   });
 
+  // initial aa run aagum - localStorage data va get panni students la update pannum
   useEffect(() => {
     const storedStudents = JSON.parse(localStorage.getItem('students')) || [];
     setStudents(storedStudents);
   }, []);
 
+
+  // inputs oooda onChange la run aagum
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
+  // form ooda submit button click aagum pothu run aagum
   const handleSubmit = (e) => {
     e.preventDefault();
 
+    // already get panna data la same rollno as we entered iruka nu paakurom
     const alreadyExists = students.some((student) => student.rollno === parseInt(formData.rollno, 10));
     
+    // if yes - show err message
     if (alreadyExists) {
       Swal.fire({
         icon: "error",
@@ -38,6 +46,7 @@ const AddDetails = () => {
       return;
     }
   
+    // else add data 
     Swal.fire({
       icon: "success",
       title: "Success",
