@@ -1,89 +1,101 @@
 import React, { useEffect, useState } from 'react';
-import { GraduationCap, MapPin, Hash, Calendar, Search } from 'lucide-react';
+import { GraduationCap, MapPin, Hash, Calendar, Search, CalendarDays, Home, UserPlus, Edit, Trash2 } from 'lucide-react';
 import { Link } from 'react-router-dom';
 
 const StudentDetails = () => {
   const [students, setStudents] = useState([]);
   const [searchTerm, setSearchTerm] = useState('');
 
-  // initial aa run aagum - localStorage la irukura values elam get panni students-array(useState) la update pannm
   useEffect(() => {
     const storedStudents = JSON.parse(localStorage.getItem('students')) || [];
     setStudents(storedStudents);
   }, []);
 
-  // students-arr(useState) la irukuratha filter panrom [ name & rollno aa vachu filter panrom ]
-  // namma searchTeam vachu check panuthu if adhula ethuvume ilana elathayum return pannum
   const filteredStudents = students.filter((student) => {
-     // console.log(student);
-     return student.name.toLowerCase().includes(searchTerm.toLowerCase()) || student.rollno.toString().includes(searchTerm);
+    return student.name.toLowerCase().includes(searchTerm.toLowerCase()) || 
+           student.rollno.toString().includes(searchTerm);
   });
 
   return (
+    <div className="min-h-screen bg-gradient-to-br from-blue-500 to-purple-600 p-4 sm:p-6 lg:p-8">
+      <div className="max-w-7xl mx-auto">
+        <h1 className="text-4xl font-bold text-center text-white mb-8 shadow-text">Student Details</h1>
 
-    <div className="min-h-screen bg-gradient-to-br from-gray-800 to-gray-700 p-8">
-      <h1 className="text-4xl font-bold text-center text-white mb-8">Student Details</h1>
-
-      {/* Searh Bar Div */}
-      <div className="max-w-md mx-auto mb-8">
-        <div className="relative">
-          {/* Input ooda onChange la get aagura values aa searchTerm var la update panrom */}
-          <input type="text" placeholder="Search by name or roll number" className="w-full px-4 py-2 text-gray-900 bg-white rounded-full focus:outline-none focus:ring-2 focus:ring-blue-500" value={searchTerm} onChange={(e) => setSearchTerm(e.target.value)}/>
-          <Search className="absolute right-3 top-2.5 h-5 w-5 text-gray-400" />
-        </div>
-      </div>
-
-     {/* Result Displaying From filteredStudents - check 15th line */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-        {filteredStudents.map((student) => (
-          <div className={`rounded-lg shadow-lg overflow-hidden bg-gradient-to-br from-indigo-400 to-cyan-500 transition-transform duration-200 ease-in-out hover:scale-105`} key={student.rollno}>
-            <div className="p-6">
-              <h2 className="text-2xl font-bold text-white mb-4 capitalize">{student.name}</h2>
-              <div className="space-y-2">
-                <div className="flex items-center text-white">
-                  <Hash className="w-5 h-5 mr-2" />
-                  <span>Roll No: {student.rollno}</span>
-                </div>
-                <div className="flex items-center text-white">
-                  <GraduationCap className="w-5 h-5 mr-2" />
-                  <span>{student.dept}</span>
-                </div>
-                <div className="flex items-center text-white">
-                  <Calendar className="w-5 h-5 mr-2" />
-                  <span>Year: {student.year == 1 ? student.year + 'st' : student.year == 2 ? student.year + 'nd' : student.year + 'rd'}</span>
-                </div>
-                <div className="flex items-center text-white">
-                  <MapPin className="w-5 h-5 mr-2" />
-                  <span className="capitalize">{student.address}</span>
-                </div>
-              </div>
+        <div className="bg-white rounded-xl shadow-2xl overflow-hidden mb-8">
+          <div className="p-6">
+            <div className="relative max-w-md mx-auto">
+              <input 
+                type="text" 
+                placeholder="Search by name or roll number" 
+                className="w-full px-4 py-2 pl-10 pr-4 text-gray-700 bg-gray-100 rounded-full focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all duration-300" 
+                value={searchTerm} 
+                onChange={(e) => setSearchTerm(e.target.value)}
+              />
+              <Search className="absolute left-3 top-2.5 h-5 w-5 text-gray-400" />
             </div>
           </div>
-        ))}
-      </div>
-      
-      {/* Buttons */}
-      <div className="flex flex-wrap items-center justify-center gap-6">
-        <Link to='/'>
-          <button className='bg-black text-white mt-10 px-5 py-3 rounded-lg font-semibold transition-all duration-300 ease-in-out hover:bg-gray-500 transform hover:scale-105 active:scale-95'>
-            Home
-          </button>
-        </Link>
-        <Link to='/addDetails'>
-          <button className='bg-blue-500 text-white mt-10 px-5 py-3 rounded-lg font-semibold transition-all duration-300 ease-in-out hover:bg-blue-400 transform hover:scale-105 active:scale-95'>
-            Add
-          </button>
-        </Link>
-        <Link to='/editDetails'>
-          <button className='bg-orange-500 text-white mt-10 px-5 py-3 rounded-lg font-semibold transition-all duration-300 ease-in-out hover:bg-orange-400 transform hover:scale-105 active:scale-95'>
-            Edit
-          </button>
-        </Link>
-        <Link to='/deleteDetails'>
-          <button className='bg-red-500 text-white mt-10 px-5 py-3 rounded-lg font-semibold transition-all duration-300 ease-in-out hover:bg-red-400 transform hover:scale-105 active:scale-95'>
-            Delete
-          </button>
-        </Link>
+
+          {filteredStudents.length > 0 ? (
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 p-6">
+              {filteredStudents.map((student) => (
+                <div className="bg-white rounded-lg shadow-md overflow-hidden border border-gray-200 transition-all duration-300 hover:shadow-lg hover:scale-105" key={student.rollno}>
+                  <div className="bg-gradient-to-r from-blue-500 to-purple-600 p-4">
+                    <h2 className="text-xl font-bold text-white capitalize">{student.name}</h2>
+                  </div>
+                  <div className="p-4 space-y-2">
+                    <div className="flex items-center text-gray-700">
+                      <Hash className="w-5 h-5 mr-2 text-blue-500" />
+                      <span>Roll No: {student.rollno}</span>
+                    </div>
+                    <div className="flex items-center text-gray-700">
+                      <CalendarDays className="w-5 h-5 mr-2 text-green-500" />
+                      <span>DOB: {student.dob}</span>
+                    </div>
+                    <div className="flex items-center text-gray-700">
+                      <GraduationCap className="w-5 h-5 mr-2 text-purple-500" />
+                      <span>Department: {student.dept}</span>
+                    </div>
+                    <div className="flex items-center text-gray-700">
+                      <Calendar className="w-5 h-5 mr-2 text-yellow-500" />
+                      <span>Year: {student.year == 1 ? student.year + 'st' : student.year == 2 ? student.year + 'nd' : student.year + 'rd'}</span>
+                    </div>
+                    <div className="flex items-center text-gray-700">
+                      <MapPin className="w-5 h-5 mr-2 text-red-500" />
+                      <span className="capitalize">{student.address}</span>
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          ) : (
+            <div className="text-center p-6 text-gray-500">
+              No students found. Try a different search or add new students.
+            </div>
+          )}
+        </div>
+        
+        <div className="flex flex-wrap items-center justify-center gap-4">
+          <Link to='/'>
+            <button className='bg-gray-800 text-white px-6 py-3 rounded-full font-semibold transition-all duration-300 hover:bg-gray-700 flex items-center'>
+              <Home className="mr-2" /> Home
+            </button>
+          </Link>
+          <Link to='/addDetails'>
+            <button className='bg-green-500 text-white px-6 py-3 rounded-full font-semibold transition-all duration-300 hover:bg-green-600 flex items-center'>
+              <UserPlus className="mr-2" /> Add
+            </button>
+          </Link>
+          <Link to='/editDetails'>
+            <button className='bg-yellow-500 text-white px-6 py-3 rounded-full font-semibold transition-all duration-300 hover:bg-yellow-600 flex items-center'>
+              <Edit className="mr-2" /> Edit
+            </button>
+          </Link>
+          <Link to='/deleteDetails'>
+            <button className='bg-red-500 text-white px-6 py-3 rounded-full font-semibold transition-all duration-300 hover:bg-red-600 flex items-center'>
+              <Trash2 className="mr-2" /> Delete
+            </button>
+          </Link>
+        </div>
       </div>
     </div>
   );

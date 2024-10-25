@@ -1,106 +1,150 @@
 import React, { useEffect, useState } from 'react';
-import { GraduationCap, MapPin, Hash, Calendar, Search, Trash2, CircleMinus } from 'lucide-react';
+import { GraduationCap, MapPin, Hash, Calendar, Search, Trash2, CircleMinus, Home, UserPlus, Edit } from 'lucide-react';
 import { Link } from 'react-router-dom';
+import Swal from 'sweetalert2';
 
 const DeleteDetails = () => {
   const [students, setStudents] = useState([]);
   const [searchTerm, setSearchTerm] = useState('');
 
-  // initial aa run aagum - localStorage la irukura values elam get panni students-array(useState) la update pannm
   useEffect(() => {
     const storedStudents = JSON.parse(localStorage.getItem('students')) || [];
     setStudents(storedStudents);
   }, []);
 
-  // students-arr(useState) la irukuratha filter panrom [ name & rollno aa vachu filter panrom ]
-  // namma searchTeam vachu check panuthu if adhula ethuvume ilana elathayum return pannum
   const filteredStudents = students.filter((student) => {
-     // console.log(student);
-     return student.name.toLowerCase().includes(searchTerm.toLowerCase()) || student.rollno.toString().includes(searchTerm);
+    return student.name.toLowerCase().includes(searchTerm.toLowerCase()) || 
+           student.rollno.toString().includes(searchTerm);
   });
 
   const handleDelete = (rollno) => {
-    const updatedStudent = students.filter((student) => student.rollno != rollno);
-    setStudents(updatedStudent);
-    localStorage.setItem('students', JSON.stringify(updatedStudent));
+    Swal.fire({
+      title: 'Are you sure?',
+      text: "You won't be able to revert this!",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Yes, delete it!'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        const updatedStudents = students.filter((student) => student.rollno !== rollno);
+        setStudents(updatedStudents);
+        localStorage.setItem('students', JSON.stringify(updatedStudents));
+        Swal.fire(
+          'Deleted!',
+          'The student has been deleted.',
+          'success'
+        )
+      }
+    })
   }
 
   const handleClearAll = () => {
-    setStudents([]);
+    Swal.fire({
+      title: 'Delete all students?',
+      text: "This action cannot be undone!",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Yes, delete all!'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        setStudents([]);
+        localStorage.removeItem('students');
+        Swal.fire(
+          'Deleted!',
+          'All students have been deleted.',
+          'success'
+        )
+      }
+    })
   }
 
   return (
+    <div className="min-h-screen bg-gradient-to-br from-purple-600 to-blue-500 p-4 sm:p-8">
+      <div className="max-w-6xl mx-auto bg-white rounded-xl shadow-2xl overflow-hidden">
+        <header className="bg-gray-800 p-6 text-white">
+          <h1 className="text-3xl sm:text-4xl font-bold text-center">Delete Student Details</h1>
+        </header>
 
-    <div className="min-h-screen bg-gradient-to-br from-gray-800 to-gray-700 p-8">
-      <h1 className="text-4xl font-bold text-center text-white mb-8">Delete Student Details</h1>
-
-      {/* Searh Bar Div */}
-      <div className="max-w-md mx-auto mb-8">
-        <div className="relative flex flex-wrap items-center justify-center">
-          {/* Input ooda onChange la get aagura values aa searchTerm var la update panrom */}
-          <input type="text" placeholder="Search by name or roll number" className="w-full px-4 py-2 text-gray-900 bg-white rounded-full focus:outline-none focus:ring-2 focus:ring-blue-500" value={searchTerm} onChange={(e) => setSearchTerm(e.target.value)}/>
-          <Search className="absolute right-3 top-2.5 h-5 w-5 text-gray-400" />
-          { 
-            students.length >= 1 ? 
-            
-            <CircleMinus className='absolute right-[-80px] h-10 w-20 text-red-600 hover:text-red-900' onClick={handleClearAll} />
-            
-            : null
-          }
-        </div>
-      </div>
-
-     {/* Result Displaying From filteredStudents - check 15th line */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-        {filteredStudents.map((student) => (
-          <div className={`relative rounded-lg shadow-lg overflow-hidden bg-gradient-to-br from-indigo-400 to-cyan-500 transition-transform duration-200 ease-in-out hover:scale-105`} key={student.rollno}>
-            <span>
-              <button className='absolute bottom-4 right-4' onClick={() => handleDelete(student.rollno)}>
-                <Trash2 />
+        <main className="p-6">
+          <div className="max-w-md mx-auto mb-8">
+            <div className="relative flex items-center">
+              <input type="text" placeholder="Search by name or roll number" className="w-full px-4 py-2 text-gray-900 border border-gray-300 rounded-full focus:outline-none focus:ring-2 focus:ring-blue-500" value={searchTerm} onChange={(e) => setSearchTerm(e.target.value)}/>
+              <Search className="absolute right-3 top-2.5 h-5 w-5 text-gray-400" />
+            </div>
+            {students.length >= 1 && (
+              <button className="mt-4 w-full bg-red-500 text-white px-4 py-2 rounded-full hover:bg-red-600 transition duration-300 flex items-center justify-center"onClick={handleClearAll}>
+                <CircleMinus className="mr-2" /> Clear All Students
               </button>
-            </span>
-            <div className="p-6">
-              <h2 className="text-2xl font-bold text-white mb-4 capitalize">{student.name}</h2>
-              <div className="space-y-2">
-                <div className="flex items-center text-white">
-                  <Hash className="w-5 h-5 mr-2" />
-                  <span>Roll No: {student.rollno}</span>
+            )}
+          </div>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            {filteredStudents.map((student) => (
+              <div className="bg-white rounded-lg shadow-md overflow-hidden border border-gray-200" key={student.rollno}>
+                <div className="p-6">
+                  <h2 className="text-2xl font-bold text-gray-800 mb-4 capitalize">{student.name}</h2>
+                  <div className="space-y-2 text-gray-600">
+                    <div className="flex items-center">
+                      <Hash className="w-5 h-5 mr-2 text-blue-500" />
+                      <span>Roll No: {student.rollno}</span>
+                    </div>
+                    <div className="flex items-center">
+                      <Calendar className="w-5 h-5 mr-2 text-black" />
+                      <span>DOB: {student.dob}</span>
+                    </div>
+                    <div className="flex items-center">
+                      <GraduationCap className="w-5 h-5 mr-2 text-green-500" />
+                      <span>{student.dept}</span>
+                    </div>
+                    <div className="flex items-center">
+                      <Calendar className="w-5 h-5 mr-2 text-yellow-500" />
+                      <span>Year: {student.year}
+                        {student.year === 1 ? 'st' : student.year === 2 ? 'nd' : student.year === 3 ? 'rd' : 'th'}
+                      </span>
+                    </div>
+                    <div className="flex items-center">
+                      <MapPin className="w-5 h-5 mr-2 text-red-500" />
+                      <span className="capitalize">{student.address}</span>
+                    </div>
+                  </div>
                 </div>
-                <div className="flex items-center text-white">
-                  <GraduationCap className="w-5 h-5 mr-2" />
-                  <span>{student.dept}</span>
-                </div>
-                <div className="flex items-center text-white">
-                  <Calendar className="w-5 h-5 mr-2" />
-                  <span>Year: {student.year == 1 ? student.year + 'st' : student.year == 2 ? student.year + 'nd' : student.year + 'rd'}</span>
-                </div>
-                <div className="flex items-center text-white">
-                  <MapPin className="w-5 h-5 mr-2" />
-                  <span className="capitalize">{student.address}</span>
+                <div className="bg-gray-100 px-6 py-4">
+                  <button  className="w-full bg-red-500 text-white px-4 py-2 rounded-full hover:bg-red-600 transition duration-300 flex items-center justify-center" onClick={() => handleDelete(student.rollno)}>
+                    <Trash2 className="mr-2" /> Delete Student
+                  </button>
                 </div>
               </div>
-            </div>
+            ))}
           </div>
-        ))}
-      </div>
-      
-      {/* Buttons */}
-      <div className="flex flex-wrap items-center justify-center gap-6">
-        <Link to='/'>
-          <button className='bg-black text-white mt-10 px-5 py-3 rounded-lg font-semibold transition-all duration-300 ease-in-out hover:bg-gray-500 transform hover:scale-105 active:scale-95'>
-            Home
-          </button>
-        </Link>
-        <Link to='/addDetails'>
-          <button className='bg-blue-500 text-white mt-10 px-5 py-3 rounded-lg font-semibold transition-all duration-300 ease-in-out hover:bg-blue-400 transform hover:scale-105 active:scale-95'>
-            Add
-          </button>
-        </Link>
-        <Link to='/editDetails'>
-          <button className='bg-orange-500 text-white mt-10 px-5 py-3 rounded-lg font-semibold transition-all duration-300 ease-in-out hover:bg-orange-400 transform hover:scale-105 active:scale-95'>
-            Edit
-          </button>
-        </Link>
+
+          {filteredStudents.length === 0 && (
+            <p className="text-center text-gray-600 mt-8">No students found. Try a different search or add new students.</p>
+          )}
+        </main>
+
+        <footer className="bg-gray-100 p-6">
+          <div className="flex flex-wrap items-center justify-center gap-4">
+            <Link to='/'>
+              <button className='bg-gray-800 text-white px-6 py-2 rounded-full font-semibold transition duration-300 hover:bg-gray-700 flex items-center'>
+                <Home className="mr-2" /> Home
+              </button>
+            </Link>
+            <Link to='/addDetails'>
+              <button className='bg-green-500 text-white px-6 py-2 rounded-full font-semibold transition duration-300 hover:bg-green-600 flex items-center'>
+                <UserPlus className="mr-2" /> Add Student
+              </button>
+            </Link>
+            <Link to='/editDetails'>
+              <button className='bg-yellow-500 text-white px-6 py-2 rounded-full font-semibold transition duration-300 hover:bg-yellow-600 flex items-center'>
+                <Edit className="mr-2" /> Edit Student
+              </button>
+            </Link>
+          </div>
+        </footer>
       </div>
     </div>
   );
