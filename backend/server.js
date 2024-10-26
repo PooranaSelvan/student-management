@@ -1,22 +1,25 @@
 import express from "express";
 import cors from "cors";
 import connectDB from "./config/db.js";
+import userController from "./controllers/userController.js";
+import dotenv from 'dotenv';
 
 
-// Declaring Express
+dotenv.config();
+
+const port = process.env.PORT || 5000;
+
 const app = express();
 
-// Cors to access the api from any endpoints
 app.use(cors());
-
 app.use(express.json());
-app.use(express.urlencoded({extended:true}));
+app.use(express.urlencoded({ extended: true }));
 
-// Need to set the port that api will run
-const port = 5000;
 
-// Calling The Db
+// Connect to the database
 connectDB();
 
+// Define routes
+app.use("/users", userController); // All routes defined in userController will have /users as a base path
 
-app.listen(port , () => console.log(`Server Is Running On Port:${port}`))
+app.listen(port, () => console.log(`Server is running on port: ${port}`));
