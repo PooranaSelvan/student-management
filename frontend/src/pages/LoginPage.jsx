@@ -4,7 +4,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { Helmet } from 'react-helmet';
 
-const LoginPage = () => {
+export default function LoginPage() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
@@ -17,12 +17,14 @@ const LoginPage = () => {
     const apiUrl = import.meta.env.VITE_API_URL;
 
     try {
-      const response = await axios.get(apiUrl, { email, password });
-      console.log(response);
-      if (response.status === 200) {
+      const response = await axios.post(`${apiUrl}/login`, { email, password });
+      
+      if (response.data.success) {
+        // User exists and credentials are correct
         navigate('/home');
       } else {
-        setError('Invalid email or password');
+        // User doesn't exist or credentials are incorrect
+        setError(response.data.message || 'Invalid email or password');
       }
     } catch (error) {
       setError('An error occurred. Please try again.');
@@ -43,12 +45,32 @@ const LoginPage = () => {
         <form onSubmit={handleSubmit} className="space-y-6">
           <div className="relative">
             <User className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" size={20} />
-            <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} placeholder="Email"autoComplete='username'className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" required/>
+            <input 
+              type="email" 
+              value={email} 
+              onChange={(e) => setEmail(e.target.value)} 
+              placeholder="Email"
+              autoComplete='username'
+              className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" 
+              required
+            />
           </div>
           <div className="relative">
             <Lock className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" size={20} />
-            <input type={showPassword ? "text" : "password"} value={password} onChange={(e) => setPassword(e.target.value)} autoComplete='current-password'placeholder="Password" className="w-full pl-10 pr-10 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" required/>
-            <button type="button" onClick={() => setShowPassword(!showPassword)} className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600">
+            <input 
+              type={showPassword ? "text" : "password"} 
+              value={password} 
+              onChange={(e) => setPassword(e.target.value)} 
+              autoComplete='current-password'
+              placeholder="Password" 
+              className="w-full pl-10 pr-10 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" 
+              required
+            />
+            <button 
+              type="button" 
+              onClick={() => setShowPassword(!showPassword)} 
+              className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600"
+            >
               {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
             </button>
           </div>
@@ -66,6 +88,4 @@ const LoginPage = () => {
       </div>
     </div>
   );
-};
-
-export default LoginPage;
+}

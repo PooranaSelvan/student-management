@@ -18,7 +18,7 @@ const RegisterPage = () => {
      setIsLoading(true);
      const apiUrl = import.meta.env.VITE_API_URL;
      try {
-       const response = await axios.post(`${apiUrl}/register/`, { email, password });
+       const response = await axios.post(`${apiUrl}register/`, { email, password });
        if (response.status === 201) {
          navigate('/');
        } else {
