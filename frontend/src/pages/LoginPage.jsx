@@ -4,7 +4,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { Helmet } from 'react-helmet';
 
-export default function LoginPage() {
+const LoginPage = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
@@ -17,14 +17,15 @@ export default function LoginPage() {
     const apiUrl = import.meta.env.VITE_API_URL;
 
     try {
-      const response = await axios.post(`${apiUrl}`, { email, password });
+      const response = await axios.get(apiUrl, { 
+        params: { email, password },
+        headers: { 'Content-Type': 'application/json' }
+      });
       
-      if (response.data.success) {
-        // User exists and credentials are correct
-        navigate('/home');
+      if (response.data.exists) {
+        setError('User already exists. Please use a different email.');
       } else {
-        // User doesn't exist or credentials are incorrect
-        setError(response.data.message || 'Invalid email or password');
+        navigate('/');
       }
     } catch (error) {
       setError('An error occurred. Please try again.');
@@ -50,7 +51,7 @@ export default function LoginPage() {
               value={email} 
               onChange={(e) => setEmail(e.target.value)} 
               placeholder="Email"
-              autoComplete='username'
+              autoComplete="username"
               className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" 
               required
             />
@@ -61,7 +62,7 @@ export default function LoginPage() {
               type={showPassword ? "text" : "password"} 
               value={password} 
               onChange={(e) => setPassword(e.target.value)} 
-              autoComplete='current-password'
+              autoComplete="current-password"
               placeholder="Password" 
               className="w-full pl-10 pr-10 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" 
               required
@@ -83,9 +84,11 @@ export default function LoginPage() {
         </div>
         <div className="mt-8 text-center">
           <p className="text-gray-600">Don't have an account?</p>
-          <Link to='/register' className="text-blue-500 hover:underline">Sign up</Link>
+          <Link to="/register" className="text-blue-500 hover:underline">Sign up</Link>
         </div>
       </div>
     </div>
   );
 }
+
+export default LoginPage;
