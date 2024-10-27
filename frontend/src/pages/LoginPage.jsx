@@ -21,17 +21,15 @@ export default function LoginPage() {
       const response = await axios.post(`${apiUrl}login`,
         {email,password,}, {headers: { "Content-Type": "application/json" },}
       );
-
-      // Assuming response.data contains user information upon successful login
-      console.log("Response received:", response.data);
+      // console.log("Response received:", response.data);
 
       // Check if login was successful
       if (response.data.message === "Login successful") {
-        console.log("Login successful, navigating to /home");
-        navigate("/home"); // Navigate to home page after successful login
+        console.log("Login successful");
+        navigate("/home")
       }
     } catch (error) {
-      // Handle different error responses
+      // Handling different error responses
       if (error.response) {
         console.error("Login error:", error.response.data);
         setError(

@@ -25,7 +25,7 @@ router.get("/", asyncHandler(async (req, res) => {
     res.json(users);
 }));
 
-// Login route (validate user credentials)
+// Login route (validate user credentials while logging)
 router.post("/login", asyncHandler(async (req, res) => {
     const { email, password } = req.body;
 
@@ -35,7 +35,7 @@ router.post("/login", asyncHandler(async (req, res) => {
         return res.status(401).json({ message: "User does not exist. Please check your email or sign up." });
     }
 
-    // Call the matchPassword method on the user instance
+    // Calling the matchPassword method on the user instance
     const isMatch = await user.matchPassword(password);
     if (!isMatch) {
         return res.status(401).json({ message: "Incorrect password. Please try again." });
