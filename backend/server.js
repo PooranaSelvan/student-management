@@ -12,10 +12,10 @@ const app = express();
 
 // CORS configuration
 app.use(cors({
-     origin: ['https://student-management-ecru.vercel.app'], // No trailing slash
+     origin: 'https://student-management-ecru.vercel.app', // No trailing slash or additional path
      methods: 'GET,POST,PUT,DELETE,PATCH,HEAD',
-     credentials: true, // Allow credentials (cookies, authorization headers, etc.)
-}));
+     credentials: true,
+ }));
 
 // Middleware to parse JSON and URL-encoded data
 app.use(express.json());
