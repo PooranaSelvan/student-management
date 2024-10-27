@@ -18,7 +18,7 @@ export default function LoginPage() {
 
     try {
       // Make a POST request to the login endpoint
-      const response = await axios.post(`${apiUrl}/login`,
+      const response = await axios.post(`${apiUrl}login`,
         {email,password,}, {headers: { "Content-Type": "application/json" },}
       );
 
