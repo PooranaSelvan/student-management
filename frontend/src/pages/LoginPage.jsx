@@ -17,7 +17,7 @@ export default function LoginPage() {
     const apiUrl = import.meta.env.VITE_API_URL;
 
     try {
-      const response = await axios.post(`${apiUrl}/login`, { email, password });
+      const response = await axios.post(`${apiUrl}`, { email, password });
       
       if (response.data.success) {
         // User exists and credentials are correct
