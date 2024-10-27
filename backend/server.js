@@ -11,21 +11,22 @@ const port = process.env.PORT || 5000;
 const app = express();
 
 
-const allowedOrigins = [
-    'stud-management.vercel.app',
-    'http://localhost:5173'
-];
+// const allowedOrigins = [
+//     'stud-management.vercel.app',
+//     'http://localhost:5173'
+// ];
 
 
 // CORS configuration
 app.use(cors({
-    origin: (origin, callback) => {
-      if (!origin || allowedOrigins.includes(origin)) {
-        callback(null, origin);
-      } else {
-        callback(new Error('Not allowed by CORS'));
-      }
-    },
+    // origin: (origin, callback) => {
+    //   if (!origin || allowedOrigins.includes(origin)) {
+    //     callback(null, origin);
+    //   } else {
+    //     callback(new Error('Not allowed by CORS'));
+    //   }
+    // },
+    origin: "*",
     methods: 'GET,POST,PUT,DELETE,PATCH,HEAD',
     credentials: true,
   }));
