@@ -25,7 +25,7 @@ const LoginPage = () => {
       if (response.data.exists) {
         setError('User already exists. Please use a different email.');
       } else {
-        navigate('/');
+        navigate('/home');
       }
     } catch (error) {
       setError('An error occurred. Please try again.');
