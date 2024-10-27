@@ -1,6 +1,7 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
 import { GraduationCap, Eye, UserPlus, Edit, Trash2 } from 'lucide-react'
+import { Helmet } from 'react-helmet';
 
 const HomePage = () => {
   const buttons = [
@@ -12,6 +13,11 @@ const HomePage = () => {
 
   return (
     <div className="min-h-screen bg-slate-300 p-4 sm:p-8">
+      <Helmet>
+        <link rel="icon" href="/img.jpg" />
+        <title>Home Page</title>
+      </Helmet>
+
       <div className="max-w-4xl mx-auto bg-white rounded-xl shadow-2xl overflow-hidden">
         <header className="bg-indigo-600 p-6 text-white text-center">
           <h1 className="text-3xl sm:text-4xl font-bold flex items-center justify-center">
@@ -45,12 +51,14 @@ const HomePage = () => {
               <li>Choose "Delete Student" to remove a student from the system</li>
             </ul>
           </div>
+
         </main>
 
         <footer className="bg-gray-200 p-4 text-center text-gray-600">
           <p>&copy; 2024 Student Management System. All rights reserved.</p>
           <p className='text-xs'>Fully Made By Poorana Selvan, DM me on Instagram: @ivlpoorana</p>
         </footer>
+        
       </div>
     </div>
   )

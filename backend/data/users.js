@@ -1,5 +1,5 @@
 import bcrypt from "bcrypt"
-
+// Ex data
 const users = [
     {
         email:"poorana@gmail.com",

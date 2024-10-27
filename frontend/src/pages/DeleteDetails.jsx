@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { GraduationCap, MapPin, Hash, Calendar, Search, Trash2, CircleMinus, Home, UserPlus, Edit } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import Swal from 'sweetalert2';
+import { Helmet } from 'react-helmet';
 
 const DeleteDetails = () => {
 
@@ -85,6 +86,10 @@ const DeleteDetails = () => {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-purple-600 to-blue-500 p-4 sm:p-8">
+      <Helmet>
+        <link rel="icon" href="/delete.svg" />
+        <title>Delete Details</title>
+      </Helmet>
       <div className="max-w-6xl mx-auto bg-white rounded-xl shadow-2xl overflow-hidden">
         <header className="bg-gray-800 p-6 text-white">
           <h1 className="text-3xl sm:text-4xl font-bold text-center">Delete Student Details</h1>
@@ -155,7 +160,7 @@ const DeleteDetails = () => {
 
         <footer className="bg-gray-100 p-6">
           <div className="flex flex-wrap items-center justify-center gap-4">
-            <Link to='/'>
+            <Link to='/home'>
               <button className='bg-gray-800 text-white px-6 py-2 rounded-full font-semibold transition duration-300 hover:bg-gray-700 flex items-center'>
                 <Home className="mr-2" /> Home
               </button>

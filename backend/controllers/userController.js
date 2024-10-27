@@ -5,7 +5,6 @@ import User from "../model/userSchema.js";
 
 const router = express.Router();
 
-// Register a new user
 router.post("/register", asyncHandler(async (req, res) => {
     const { name, email, password } = req.body;
 
@@ -18,7 +17,8 @@ router.post("/register", asyncHandler(async (req, res) => {
     res.status(201).json(newUser);
 }));
 
-// Other routes (e.g., GET /users)
+
+
 router.get("/", asyncHandler(async (req, res) => {
     const users = await User.find({});
     res.json(users);

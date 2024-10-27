@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { User, Hash, GraduationCap, Calendar, MapPin, CalendarDays, Home, Eye } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import Swal from 'sweetalert2'; 
+import { Helmet } from 'react-helmet';
 
 const AddDetails = () => {
 
@@ -63,6 +64,10 @@ const AddDetails = () => {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-500 to-purple-600 p-4 sm:p-6 lg:p-8">
+      <Helmet>
+        <link rel="icon" href="/add.svg" />
+        <title>Add Details</title>
+      </Helmet>
       <div className="max-w-4xl mx-auto bg-white rounded-xl shadow-2xl overflow-hidden">
         <div className="bg-gray-800 p-6 text-white">
           <h2 className="text-3xl font-bold text-center">Add New Student</h2>
@@ -100,7 +105,7 @@ const AddDetails = () => {
         </form>
       </div>
       <div className="flex flex-wrap items-center justify-center gap-6 mt-8">
-        <Link to='/'>
+        <Link to='/home'>
           <button className='bg-gray-800 text-white px-6 py-3 rounded-full font-semibold transition-all duration-300 ease-in-out hover:bg-gray-700 flex items-center'>
             <Home className="mr-2" /> Home
           </button>

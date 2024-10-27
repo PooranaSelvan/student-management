@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { GraduationCap, MapPin, Hash, Calendar, Search, CalendarDays, Home, UserPlus, Edit, Trash2 } from 'lucide-react';
 import { Link } from 'react-router-dom';
+import { Helmet } from 'react-helmet';
 
 const StudentDetails = () => {
   // main state to store data
@@ -21,6 +22,11 @@ const StudentDetails = () => {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-500 to-purple-600 p-4 sm:p-6 lg:p-8">
+      <Helmet>
+        <link rel="icon" href="/details.svg" />
+        <title>Details</title>
+      </Helmet>
+      
       <div className="max-w-7xl mx-auto">
         <h1 className="text-4xl font-bold text-center text-white mb-8 shadow-text">Student Details</h1>
 
@@ -74,7 +80,7 @@ const StudentDetails = () => {
         
         {/* Buttons */}
         <div className="flex flex-wrap items-center justify-center gap-4">
-          <Link to='/'>
+          <Link to='/home'>
             <button className='bg-gray-800 text-white px-6 py-3 rounded-full font-semibold transition-all duration-300 hover:bg-gray-700 flex items-center'>
               <Home className="mr-2" /> Home
             </button>

@@ -5,7 +5,7 @@ dotenv.config();
 
 const connectDB = async () => {
   try {
-    const uri = process.env.MONGO_URI; // Make sure this matches the name in your .env file
+    const uri = process.env.MONGO_URI;
     if (!uri) {
       throw new Error("MongoDB URI is not defined in the .env file");
     }
@@ -16,7 +16,7 @@ const connectDB = async () => {
     console.log("MongoDB connected successfully");
   } catch (error) {
     console.error("MongoDB connection failed:", error.message);
-    process.exit(1); // Exit the process with failure
+    process.exit(1);
   }
 };
 

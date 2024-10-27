@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { User, Hash, GraduationCap, Calendar, MapPin, CalendarDays, Home, Eye, Trash2 } from "lucide-react";
 import { Link } from "react-router-dom";
 import Swal from "sweetalert2";
+import { Helmet } from 'react-helmet';
 
 const EditDetails = () => {
 
@@ -87,13 +88,20 @@ const EditDetails = () => {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-indigo-500 to-purple-600 p-8 flex flex-col items-center justify-center">
+      <Helmet>
+        <link rel="icon" href="/update.svg" />
+        <title>Update Details</title>
+      </Helmet>
+      
       <div className="w-full max-w-md">
         <div className="bg-white rounded-2xl shadow-2xl">
+
           <div className="bg-gradient-to-r from-blue-500 to-purple-600 p-4">
             <h2 className="text-3xl font-bold text-white text-center">
               Update Student
             </h2>
           </div>
+
           <form onSubmit={handleSubmit} className="p-6 space-y-6">
             <div className="relative">
               <Hash className="absolute top-3 left-3 h-5 w-5 text-gray-400" />
@@ -128,7 +136,7 @@ const EditDetails = () => {
           </form>
         </div>
         <div className="flex flex-wrap items-center justify-center gap-6 mt-8">
-        <Link to='/'>
+        <Link to='/home'>
           <button className='bg-gray-800 text-white px-6 py-3 rounded-full font-semibold transition-all duration-300 ease-in-out hover:bg-gray-700 flex items-center'>
             <Home className="mr-2" /> Home
           </button>
@@ -139,10 +147,10 @@ const EditDetails = () => {
           </button>
         </Link>
         <Link to='/deleteDetails'>
-            <button className='bg-red-500 text-white px-6 py-3 rounded-full font-semibold transition-all duration-300 hover:bg-red-600 flex items-center'>
-              <Trash2 className="mr-2" /> Delete
-            </button>
-          </Link>
+          <button className='bg-red-500 text-white px-6 py-3 rounded-full font-semibold transition-all duration-300 hover:bg-red-600 flex items-center'>
+            <Trash2 className="mr-2" /> Delete
+          </button>
+        </Link>
       </div>
       </div>
       
