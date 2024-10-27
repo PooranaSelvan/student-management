@@ -11,7 +11,11 @@ const port = process.env.PORT || 5000;
 
 const app = express();
 
-app.use(cors());
+app.use(cors({
+     origin: [''],
+     methods: ["POST", "GET"],
+     credentials: true
+}));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
@@ -22,3 +26,6 @@ connectDB();
 app.use("/users", userController); // All routes defined in userController will have /users as a base path
 
 app.listen(port, () => console.log(`Server is running on port: ${port}`));
+
+
+export default app;
