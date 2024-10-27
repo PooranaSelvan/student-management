@@ -4,7 +4,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { Helmet } from 'react-helmet';
 
-const LoginPage = () => {
+export default function LoginPage() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
@@ -23,9 +23,16 @@ const LoginPage = () => {
       });
       
       if (response.data.exists) {
-        setError('User already exists. Please use a different email.');
+        if (response.data.passwordMatch) {
+          // Both email exists and password matches, redirect to home
+          navigate('/home');
+        } else {
+          // Email exists but password doesn't match
+          setError('Incorrect password. Please try again.');
+        }
       } else {
-        navigate('/home');
+        // User doesn't exist
+        setError('User does not exist. Please check your email or sign up.');
       }
     } catch (error) {
       setError('An error occurred. Please try again.');
@@ -90,5 +97,3 @@ const LoginPage = () => {
     </div>
   );
 }
-
-export default LoginPage;
